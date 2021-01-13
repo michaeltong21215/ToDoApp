@@ -1,10 +1,12 @@
 package com.practice.todoapp.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="users")
-public class Users {
+public class Users extends Auditable<String> {
     @Id
     @Column(name="userid", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,14 @@ public class Users {
     private String userPassword;
     @Column(name="categorization")
     private String categorization;
+
+    public String getCategorization() {
+        return categorization;
+    }
+
+    public void setCategorization(String categorization) {
+        this.categorization = categorization;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -50,13 +60,6 @@ public class Users {
         this.userPassword = userPassword;
     }
 
-    public String getCategorization() {
-        return categorization;
-    }
-
-    public void setCategorization(String categorization) {
-        this.categorization = categorization;
-    }
 
     @Override
     public String toString() {

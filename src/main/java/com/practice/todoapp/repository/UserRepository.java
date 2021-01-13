@@ -11,5 +11,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<Users, Long> {
 
     @Query("SELECT userId, userName from Users where userId = ?1")
-    public List<Users> findByUserId(Integer id);
+    public Object findByUserId(Integer id);
 }
