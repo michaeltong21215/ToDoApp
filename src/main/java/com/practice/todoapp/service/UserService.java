@@ -12,9 +12,9 @@ public interface UserService {
 
     public Users createUser(Users user);
 
-    public ResponseEntity deleteUser(Long id);
+    public void deleteUser(Long id);
 
     public Users updateUser(Users user);
 
-    public List<Users> findByUserId(Integer id);
+    public Object findByUserId(Integer id);
 }

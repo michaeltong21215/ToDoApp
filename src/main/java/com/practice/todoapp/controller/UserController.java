@@ -3,6 +3,7 @@ package com.practice.todoapp.controller;
 import com.practice.todoapp.model.Users;
 import com.practice.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +22,24 @@ public class UserController {
     }
 
     @GetMapping(value="/{id}")
-    public List<Users> getUserById(@PathVariable("id") Integer id) {
-        return userService.findByUserId(id);
+    public ResponseEntity<Object> getUserById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(userService.findByUserId(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public Users createUser(@RequestBody Users user) {
-        return userService.createUser(user);
+    public ResponseEntity<Users> createUser(@RequestBody Users user) {
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value="/{id}")
     public ResponseEntity deleteUser(@PathVariable("id") Long id) {
-        return userService.deleteUser(id);
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping
-    public Users updateUser(@RequestBody Users user) {
-        return userService.updateUser(user);
+    public ResponseEntity updateUser(@RequestBody Users user) {
+        userService.updateUser(user);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
