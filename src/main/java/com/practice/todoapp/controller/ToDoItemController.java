@@ -1,16 +1,20 @@
 package com.practice.todoapp.controller;
 
+import com.practice.todoapp.exception.ToDoItemBadRequest;
 import com.practice.todoapp.model.ToDoItem;
 import com.practice.todoapp.service.ToDoItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/ToDoItem")
+@Slf4j
 public class ToDoItemController {
     @Autowired
     ToDoItemService toDoItemService;
@@ -22,6 +26,14 @@ public class ToDoItemController {
 
     @PostMapping
     public ResponseEntity<ToDoItem> createToDoItem(@RequestBody ToDoItem todoItem) {
+        try {
+            if (!StringUtils.hasText(todoItem.getImageUrl())) {
+                throw new ToDoItemBadRequest("Image url should be required to create a todo item.");
+            }
+        } catch (Exception e) {
+            log.error("Image url should be required to create a todo item. ", e.getLocalizedMessage());
+            throw new ToDoItemBadRequest("Image url should be required to create a todo item.");
+        }
         return new ResponseEntity<ToDoItem>(toDoItemService.createToDoItem(todoItem), HttpStatus.CREATED);
     }
 

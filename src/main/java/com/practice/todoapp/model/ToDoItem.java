@@ -1,24 +1,20 @@
 package com.practice.todoapp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="ToDoItem")
+@Table(name="todoitem")
 @Data
 public class ToDoItem extends Auditable<String>{
     @Id
-    @Column(name="Id", nullable = false)
+    @Column(name="id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="userId", nullable = false)
-    private String userId;
-
-    @Column(name="imageUrl", nullable = false)
+    @Column(name="imageurl", nullable = false)
     private String imageUrl;
 
     @Column(name="name", nullable = false)
@@ -29,5 +25,9 @@ public class ToDoItem extends Auditable<String>{
 
     @Column(name="status", nullable = false)
     private String status;
+
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Users users;
 
 }
