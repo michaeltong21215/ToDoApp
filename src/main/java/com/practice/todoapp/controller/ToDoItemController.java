@@ -1,6 +1,7 @@
 package com.practice.todoapp.controller;
 
 import com.practice.todoapp.exception.ToDoItemBadRequest;
+import com.practice.todoapp.exception.ToDoItemNotFoundException;
 import com.practice.todoapp.model.ToDoItem;
 import com.practice.todoapp.service.ToDoItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,15 @@ public class ToDoItemController {
     @GetMapping(value="/{id}")
     public ResponseEntity<ToDoItem> getToDoItemById(@PathVariable("id") Integer userId) {
         return new ResponseEntity<>(toDoItemService.getToDoItemById(userId),HttpStatus.OK);
+    }
+    @GetMapping
+    public ResponseEntity<ToDoItem> getToDoItemByIdParam(@RequestParam("id") Integer userId) {
+        return new ResponseEntity<>(toDoItemService.getToDoItemById(userId),HttpStatus.OK);
+    }
+
+    @GetMapping(value="/allItems")
+    public ResponseEntity<List<ToDoItem>> getAllItems(){
+        return new ResponseEntity<>(toDoItemService.getAllItems(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -47,4 +57,11 @@ public class ToDoItemController {
         toDoItemService.deleteToDoItem(toDoId);
         return new ResponseEntity<ToDoItem>(HttpStatus.NO_CONTENT);
     }
+    /*
+    @ExceptionHandler(value=ToDoItemNotFoundException.class)
+    public ResponseEntity<Object> exception(ToDoItemNotFoundException exception){
+        return new ResponseEntity<>("To do item not found", HttpStatus.NOT_FOUND);
+    }
+
+     */
 }
